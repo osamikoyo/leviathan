@@ -1,0 +1,21 @@
+version : 3
+
+tasks:
+  build-heart:
+    cmds:
+      - go build -o bin/heart cmd/heart/main.go
+  build-node:
+    cmds:
+      - go build -o bin/node cmd/node/main.go
+  run-heart:
+    cmds:
+      - task build-heart
+      - ./bin/heart
+  run-node:
+    cmds:
+      - task build-node
+      - ./bin/node
+  proto:
+    cmds:
+      - protoc --go_out=. --go-grpc_out=. proto/heart.proto 
+      - protoc --go_out=. --go-grpc_out=. proto/node.proto
