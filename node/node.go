@@ -9,13 +9,16 @@ import (
 	"github.com/osamikoyo/leviathan/logger"
 	"github.com/osamikoyo/leviathan/models"
 	"github.com/osamikoyo/leviathan/nodecore"
+	"github.com/osamikoyo/leviathan/nodepb"
+	"github.com/osamikoyo/leviathan/nodeserver"
 	"github.com/osamikoyo/leviathan/reader"
 	"github.com/osamikoyo/leviathan/writer"
 	"go.uber.org/zap"
+	"google.golang.org/grpc"
 )
 
 type Node struct {
-	core   *nodecore.NodeCore
+	server *grpc.Server
 	writer *writer.Writer
 	reader *reader.Reader
 	logger *logger.Logger
@@ -47,12 +50,17 @@ func ConnectNode(cfg *config.NodeConfig, logger *logger.Logger) (*Node, error) {
 	writer := writer.NewWriter(writeChan, db, logger)
 	reader := reader.NewReader(readChan, db, logger)
 
+	grpcserver := grpc.NewServer()
+
+	server := nodeserver.NewNodeServer(core, logger, cfg)
+
+	nodepb.RegisterNodeServer(grpcserver, server)
+
 	return &Node{
 		reader: reader,
 		writer: writer,
-		cfg: cfg,
+		cfg:    cfg,
 		logger: logger,
-		core: core,
+		server: grpcserver,
 	}, nil
 }
-
