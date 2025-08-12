@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "./nodepb";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+
+message Request{
+  bool write_request = 1;
+  string sql = 2;
+  repeated google.protobuf.Any args = 5; 
+  google.protobuf.Timestamp timestamp = 4;
+}
+
+message Response{
+  string payload = 1;
+  string message = 2;
+  uint32 node_id = 3;
+}
+
+service Node{
+    rpc Route(Request) returns (Response);
+}
