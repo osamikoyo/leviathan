@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "./heartpb";
+
+import "google/protobuf/timestamp.proto";
+
+message Request{
+  bool write_request = 1;
+  string sql = 2;
+  google.protobuf.Timestamp timestamp = 4;
+}
+
+message Response{
+  string payload = 1;
+  string message = 2;
+  uint32 node_id = 3;
+}
+
+service Heart{
+    rpc Route(Request) returns (Response);
+}
