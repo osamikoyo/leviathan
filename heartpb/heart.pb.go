@@ -9,6 +9,7 @@ package heartpb
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
@@ -24,9 +25,9 @@ const (
 
 type Request struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	WriteRequest  bool                   `protobuf:"varint,1,opt,name=write_request,json=writeRequest,proto3" json:"write_request,omitempty"`
 	Sql           string                 `protobuf:"bytes,2,opt,name=sql,proto3" json:"sql,omitempty"`
 	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Args          []*anypb.Any           `protobuf:"bytes,5,rep,name=args,proto3" json:"args,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -61,13 +62,6 @@ func (*Request) Descriptor() ([]byte, []int) {
 	return file_proto_heart_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Request) GetWriteRequest() bool {
-	if x != nil {
-		return x.WriteRequest
-	}
-	return false
-}
-
 func (x *Request) GetSql() string {
 	if x != nil {
 		return x.Sql
@@ -78,6 +72,13 @@ func (x *Request) GetSql() string {
 func (x *Request) GetTimestamp() *timestamppb.Timestamp {
 	if x != nil {
 		return x.Timestamp
+	}
+	return nil
+}
+
+func (x *Request) GetArgs() []*anypb.Any {
+	if x != nil {
+		return x.Args
 	}
 	return nil
 }
@@ -146,11 +147,11 @@ var File_proto_heart_proto protoreflect.FileDescriptor
 
 const file_proto_heart_proto_rawDesc = "" +
 	"\n" +
-	"\x11proto/heart.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"z\n" +
-	"\aRequest\x12#\n" +
-	"\rwrite_request\x18\x01 \x01(\bR\fwriteRequest\x12\x10\n" +
+	"\x11proto/heart.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x19google/protobuf/any.proto\"\x7f\n" +
+	"\aRequest\x12\x10\n" +
 	"\x03sql\x18\x02 \x01(\tR\x03sql\x128\n" +
-	"\ttimestamp\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\"W\n" +
+	"\ttimestamp\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12(\n" +
+	"\x04args\x18\x05 \x03(\v2\x14.google.protobuf.AnyR\x04args\"W\n" +
 	"\bResponse\x12\x18\n" +
 	"\apayload\x18\x01 \x01(\tR\apayload\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x17\n" +
@@ -175,16 +176,18 @@ var file_proto_heart_proto_goTypes = []any{
 	(*Request)(nil),               // 0: Request
 	(*Response)(nil),              // 1: Response
 	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
+	(*anypb.Any)(nil),             // 3: google.protobuf.Any
 }
 var file_proto_heart_proto_depIdxs = []int32{
 	2, // 0: Request.timestamp:type_name -> google.protobuf.Timestamp
-	0, // 1: Heart.Route:input_type -> Request
-	1, // 2: Heart.Route:output_type -> Response
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	3, // 1: Request.args:type_name -> google.protobuf.Any
+	0, // 2: Heart.Route:input_type -> Request
+	1, // 3: Heart.Route:output_type -> Response
+	3, // [3:4] is the sub-list for method output_type
+	2, // [2:3] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_proto_heart_proto_init() }
