@@ -61,7 +61,7 @@ func NewConsumer(conn *amqp.Connection, nodecore *nodecore.NodeCore, logger *log
 	}, nil
 }
 
-func (c *Consumer) Close(ctx context.Context) error {
+func (c *Consumer) Close(_ context.Context) error {
 	c.logger.Info("closing consumer...")
 
 	if err := c.channel.Close(); err != nil {
