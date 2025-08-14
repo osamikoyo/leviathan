@@ -58,18 +58,18 @@ func NewHeartCore(
 }
 
 func (h *HeartCore) getGoodNode() int {
-	min := 0
+	m := 0
 
 	minindex := 0
 
 	h.mux.RLock()
 	defer h.mux.RUnlock()
 
-	min = h.nodes[0].requestInRoute
+	m = h.nodes[0].requestInRoute
 
 	for i, node := range h.nodes {
-		if node.requestInRoute < min {
-			min = node.requestInRoute
+		if node.requestInRoute < m {
+			m = node.requestInRoute
 			minindex = i
 		}
 	}
