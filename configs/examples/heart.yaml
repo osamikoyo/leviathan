@@ -1,0 +1,8 @@
+addr: "localhost:8080"
+rabbitmq_url: "amqp://guest:guest@localhost:5672/"
+exchange: "nodes"
+queue_name: "write_requests"  # base queue name prefix
+nodes:
+  - "localhost:9001"
+  - "localhost:9002"
+  - "localhost:9003"

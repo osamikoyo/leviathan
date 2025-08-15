@@ -1,0 +1,6 @@
+node_id: 2
+addr: "localhost:9002"
+exchange_name: "nodes"
+rabbitmq_url: "amqp://guest:guest@localhost:5672/"
+queue_name: "write_requests"  # base queue name (will become write_requests_node_2)
+sqlite_path: "./data/node2.db"
