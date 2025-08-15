@@ -25,6 +25,7 @@ const (
 
 type Request struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	WriteRequest  bool                   `protobuf:"varint,1,opt,name=write_request,json=writeRequest,proto3" json:"write_request,omitempty"`
 	Sql           string                 `protobuf:"bytes,2,opt,name=sql,proto3" json:"sql,omitempty"`
 	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	Args          []*anypb.Any           `protobuf:"bytes,5,rep,name=args,proto3" json:"args,omitempty"`
@@ -60,6 +61,13 @@ func (x *Request) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Request.ProtoReflect.Descriptor instead.
 func (*Request) Descriptor() ([]byte, []int) {
 	return file_proto_heart_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Request) GetWriteRequest() bool {
+	if x != nil {
+		return x.WriteRequest
+	}
+	return false
 }
 
 func (x *Request) GetSql() string {
@@ -147,8 +155,9 @@ var File_proto_heart_proto protoreflect.FileDescriptor
 
 const file_proto_heart_proto_rawDesc = "" +
 	"\n" +
-	"\x11proto/heart.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x19google/protobuf/any.proto\"\x7f\n" +
-	"\aRequest\x12\x10\n" +
+	"\x11proto/heart.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x19google/protobuf/any.proto\"\xa4\x01\n" +
+	"\aRequest\x12#\n" +
+	"\rwrite_request\x18\x01 \x01(\bR\fwriteRequest\x12\x10\n" +
 	"\x03sql\x18\x02 \x01(\tR\x03sql\x128\n" +
 	"\ttimestamp\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\x12(\n" +
 	"\x04args\x18\x05 \x03(\v2\x14.google.protobuf.AnyR\x04args\"W\n" +
