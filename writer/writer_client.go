@@ -30,7 +30,7 @@ func (w *WriterClient) Write(sql string, args ...interface{}) error {
 
 	err := <-req.Error
 
-	close(errChan)
+	close(req.Error)
 
 	return err
 }
