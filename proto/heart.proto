@@ -3,11 +3,13 @@ syntax = "proto3";
 option go_package = "./heartpb";
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
 
 message Request{
   bool write_request = 1;
   string sql = 2;
   google.protobuf.Timestamp timestamp = 4;
+  repeated google.protobuf.Any args = 5; 
 }
 
 message Response{
