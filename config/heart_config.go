@@ -8,8 +8,11 @@ import (
 )
 
 type HeartConfig struct {
-	Addr  string   `yaml:"addr"`
-	Nodes []string `yaml:"nodes"`
+	ExchangeName string   `yaml:"exchange"`
+	QueueName    string   `yaml:"queue_name"`
+	RabbitmqUrl  string   `yaml:"rabbitmq_url"`
+	Addr         string   `yaml:"addr"`
+	Nodes        []string `yaml:"nodes"`
 }
 
 func NewHeartConfig(path string) (*HeartConfig, error) {
