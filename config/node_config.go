@@ -8,8 +8,12 @@ import (
 )
 
 type NodeConfig struct {
-	Addr       string `yaml:"addr"`
-	SqlitePath string `yaml:"sqlite_path"`
+	NodeID       uint32 `yaml:"node_id"`
+	Addr         string `yaml:"addr"`
+	ExchangeName string `yaml:"exchange_name"`
+	RabbitmqURL  string `yaml:"rabbitmq_url"`
+	QueueName    string `yaml:"queue_name"`
+	SqlitePath   string `yaml:"sqlite_path"`
 }
 
 func NewNodeConfig(path string) (*NodeConfig, error) {
