@@ -147,7 +147,7 @@ var File_proto_node_proto protoreflect.FileDescriptor
 
 const file_proto_node_proto_rawDesc = "" +
 	"\n" +
-	"\x10proto/node.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x19google/protobuf/any.proto\"\x7f\n" +
+	"\x10proto/node.proto\x12\x04node\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x19google/protobuf/any.proto\"\x7f\n" +
 	"\aRequest\x12\x10\n" +
 	"\x03sql\x18\x02 \x01(\tR\x03sql\x12(\n" +
 	"\x04args\x18\x05 \x03(\v2\x14.google.protobuf.AnyR\x04args\x128\n" +
@@ -155,9 +155,9 @@ const file_proto_node_proto_rawDesc = "" +
 	"\bResponse\x12\x18\n" +
 	"\apayload\x18\x01 \x01(\tR\apayload\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x17\n" +
-	"\anode_id\x18\x03 \x01(\rR\x06nodeId2$\n" +
-	"\x04Node\x12\x1c\n" +
-	"\x05Route\x12\b.Request\x1a\t.ResponseB\n" +
+	"\anode_id\x18\x03 \x01(\rR\x06nodeId2.\n" +
+	"\x04Node\x12&\n" +
+	"\x05Route\x12\r.node.Request\x1a\x0e.node.ResponseB\n" +
 	"Z\b./nodepbb\x06proto3"
 
 var (
@@ -174,16 +174,16 @@ func file_proto_node_proto_rawDescGZIP() []byte {
 
 var file_proto_node_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_proto_node_proto_goTypes = []any{
-	(*Request)(nil),               // 0: Request
-	(*Response)(nil),              // 1: Response
+	(*Request)(nil),               // 0: node.Request
+	(*Response)(nil),              // 1: node.Response
 	(*anypb.Any)(nil),             // 2: google.protobuf.Any
 	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_proto_node_proto_depIdxs = []int32{
-	2, // 0: Request.args:type_name -> google.protobuf.Any
-	3, // 1: Request.timestamp:type_name -> google.protobuf.Timestamp
-	0, // 2: Node.Route:input_type -> Request
-	1, // 3: Node.Route:output_type -> Response
+	2, // 0: node.Request.args:type_name -> google.protobuf.Any
+	3, // 1: node.Request.timestamp:type_name -> google.protobuf.Timestamp
+	0, // 2: node.Node.Route:input_type -> node.Request
+	1, // 3: node.Node.Route:output_type -> node.Response
 	3, // [3:4] is the sub-list for method output_type
 	2, // [2:3] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name

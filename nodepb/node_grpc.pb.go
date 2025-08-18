@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Node_Route_FullMethodName = "/Node/Route"
+	Node_Route_FullMethodName = "/node.Node/Route"
 )
 
 // NodeClient is the client API for Node service.
@@ -108,7 +108,7 @@ func _Node_Route_Handler(srv interface{}, ctx context.Context, dec func(interfac
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Node_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "Node",
+	ServiceName: "node.Node",
 	HandlerType: (*NodeServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
