@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Heart_Route_FullMethodName = "/Heart/Route"
+	Heart_Route_FullMethodName = "/heart.Heart/Route"
 )
 
 // HeartClient is the client API for Heart service.
@@ -108,7 +108,7 @@ func _Heart_Route_Handler(srv interface{}, ctx context.Context, dec func(interfa
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Heart_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "Heart",
+	ServiceName: "heart.Heart",
 	HandlerType: (*HeartServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

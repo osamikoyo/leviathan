@@ -155,7 +155,7 @@ var File_proto_heart_proto protoreflect.FileDescriptor
 
 const file_proto_heart_proto_rawDesc = "" +
 	"\n" +
-	"\x11proto/heart.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x19google/protobuf/any.proto\"\xa4\x01\n" +
+	"\x11proto/heart.proto\x12\x05heart\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x19google/protobuf/any.proto\"\xa4\x01\n" +
 	"\aRequest\x12#\n" +
 	"\rwrite_request\x18\x01 \x01(\bR\fwriteRequest\x12\x10\n" +
 	"\x03sql\x18\x02 \x01(\tR\x03sql\x128\n" +
@@ -164,9 +164,9 @@ const file_proto_heart_proto_rawDesc = "" +
 	"\bResponse\x12\x18\n" +
 	"\apayload\x18\x01 \x01(\tR\apayload\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x17\n" +
-	"\anode_id\x18\x03 \x01(\rR\x06nodeId2%\n" +
-	"\x05Heart\x12\x1c\n" +
-	"\x05Route\x12\b.Request\x1a\t.ResponseB\vZ\t./heartpbb\x06proto3"
+	"\anode_id\x18\x03 \x01(\rR\x06nodeId21\n" +
+	"\x05Heart\x12(\n" +
+	"\x05Route\x12\x0e.heart.Request\x1a\x0f.heart.ResponseB\vZ\t./heartpbb\x06proto3"
 
 var (
 	file_proto_heart_proto_rawDescOnce sync.Once
@@ -182,16 +182,16 @@ func file_proto_heart_proto_rawDescGZIP() []byte {
 
 var file_proto_heart_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_proto_heart_proto_goTypes = []any{
-	(*Request)(nil),               // 0: Request
-	(*Response)(nil),              // 1: Response
+	(*Request)(nil),               // 0: heart.Request
+	(*Response)(nil),              // 1: heart.Response
 	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
 	(*anypb.Any)(nil),             // 3: google.protobuf.Any
 }
 var file_proto_heart_proto_depIdxs = []int32{
-	2, // 0: Request.timestamp:type_name -> google.protobuf.Timestamp
-	3, // 1: Request.args:type_name -> google.protobuf.Any
-	0, // 2: Heart.Route:input_type -> Request
-	1, // 3: Heart.Route:output_type -> Response
+	2, // 0: heart.Request.timestamp:type_name -> google.protobuf.Timestamp
+	3, // 1: heart.Request.args:type_name -> google.protobuf.Any
+	0, // 2: heart.Heart.Route:input_type -> heart.Request
+	1, // 3: heart.Heart.Route:output_type -> heart.Response
 	3, // [3:4] is the sub-list for method output_type
 	2, // [2:3] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
