@@ -15,6 +15,7 @@ import (
 )
 
 type HeartServer struct {
+	heartpb.UnimplementedHeartServer
 	core   *heartcore.HeartCore
 	logger *logger.Logger
 	cfg    *config.HeartConfig
