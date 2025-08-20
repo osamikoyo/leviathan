@@ -7,6 +7,7 @@ import (
 
 	"github.com/osamikoyo/leviathan/logger"
 	"github.com/osamikoyo/leviathan/models"
+	"go.uber.org/zap"
 )
 
 type (
@@ -42,15 +43,22 @@ func (r *Reader) StartDaemon(ctx context.Context) {
 			ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 			defer cancel()
 
-			rows, err := r.db.QueryContext(ctx, req.Sql, req.Args)
+			rows, err := r.db.QueryContext(ctx, req.Sql, req.Args...)
 			if err != nil {
 				req.Resp <- &models.ReadResponse{
 					Error:  err,
 					Values: nil,
 				}
 			}
+			if rows == nil {
+				r.logger.Warn("rows is nil", zap.Any("request", req))
+			}
 
-			defer rows.Close()
+			defer func() {
+				if rows != nil {
+					rows.Close()
+				}
+			}()
 
 			columns, err := rows.Columns()
 			if err != nil {
