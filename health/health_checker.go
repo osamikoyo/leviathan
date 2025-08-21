@@ -87,9 +87,6 @@ func (hc *HealthChecker) Start(ctx context.Context) {
 }
 
 // Stop stops the health checker
-func (hc *HealthChecker) Stop() {
-	close(hc.done)
-}
 
 // checkAllNodes checks the health of all nodes
 func (hc *HealthChecker) checkAllNodes(ctx context.Context) {
