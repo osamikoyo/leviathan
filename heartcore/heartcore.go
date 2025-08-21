@@ -145,9 +145,6 @@ func (h *HeartCore) Stop() error {
 	if h.cancel != nil {
 		h.cancel()
 	}
-
-	h.health.Stop()
-
 	// Close all node clients
 	for _, node := range h.nodes {
 		if err := node.client.Close(); err != nil {
