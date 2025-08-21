@@ -2,6 +2,7 @@ package heart
 
 import (
 	"context"
+	"crypto/tls"
 	"errors"
 	"net"
 
@@ -15,6 +16,7 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 type Heart struct {
@@ -23,9 +25,11 @@ type Heart struct {
 	core       *heartcore.HeartCore
 	server     *heartserver.HeartServer
 	grpcserver *grpc.Server
+	certPath   string
+	keyPath    string
 }
 
-func ConnectHeart(cfg *config.HeartConfig, logger *logger.Logger) (*Heart, error) {
+func ConnectHeart(cfg *config.HeartConfig, logger *logger.Logger, cert, key string) (*Heart, error) {
 	if cfg == nil {
 		return nil, errors.New("config cannot be nil")
 	}
@@ -60,10 +64,12 @@ func ConnectHeart(cfg *config.HeartConfig, logger *logger.Logger) (*Heart, error
 	}
 
 	return &Heart{
-		core:   core,
-		server: heartserver.NewHeartServer(core, logger, cfg),
-		logger: logger,
-		cfg:    cfg,
+		core:     core,
+		server:   heartserver.NewHeartServer(core, logger, cfg),
+		logger:   logger,
+		cfg:      cfg,
+		certPath: cert,
+		keyPath:  key,
 	}, nil
 }
 
@@ -81,7 +87,23 @@ func (h *Heart) Run(ctx context.Context) error {
 		return err
 	}
 
-	server := grpc.NewServer()
+	cert, err := tls.LoadX509KeyPair(h.certPath, h.keyPath)
+	if err != nil {
+		h.logger.Error("failed load keys",
+			zap.String("cert_path", h.certPath),
+			zap.String("key_path", h.keyPath),
+			zap.Error(err))
+
+		return err
+	}
+
+	tlsConfig := &tls.Config{
+		Certificates: []tls.Certificate{cert},
+	}
+
+	creds := credentials.NewTLS(tlsConfig)
+
+	server := grpc.NewServer(grpc.Creds(creds))
 	h.grpcserver = server // Store server for graceful shutdown
 
 	heartpb.RegisterHeartServer(server, h.server)
