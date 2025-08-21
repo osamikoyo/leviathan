@@ -1,21 +1,129 @@
-version : 3
+version: '3'
+
+vars:
+  BUILD_FLAGS: -ldflags="-w -s"
+  HEART_CONFIG: configs/examples/heart.yaml
+  NODE_CONFIG: configs/examples/node1.yaml
+  CERT_PATH: secret/server.crt
+  KEY_PATH: secret/server.key
 
 tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  setup:
+    desc: Setup development environment
+    cmds:
+      - task: deps
+      - task: proto
+      - mkdir -p bin logs data/node1 data/node2 data/node3
+      - echo "Development environment setup complete!"
+
+  deps:
+    desc: Install dependencies
+    cmds:
+      - go mod download
+      - go mod tidy
+
+  build:
+    desc: Build both services
+    deps: [build-heart, build-node]
+
   build-heart:
+    desc: Build heart service
     cmds:
-      - go build -o bin/heart cmd/heart/main.go
+      - mkdir -p bin
+      - go build {{.BUILD_FLAGS}} -o bin/heart cmd/heart/main.go
+
+  build-client:
+    desc: Build heart client
+    cmds:
+      - mkdir -p bin
+      - go build {{.BUILD_FLAGS}} -o bin/client cmd/heartclient/main.go
+      
   build-node:
+    desc: Build node service
     cmds:
-      - go build -o bin/node cmd/node/main.go
+      - mkdir -p bin
+      - go build {{.BUILD_FLAGS}} -o bin/node cmd/node/main.go
+
+  run-client:
+    desc: Run heart client
+    deps: [build-client]
+    cmds:
+      - ./bin/client --cert {{.CERT_PATH}}
+
   run-heart:
+    desc: Run heart service
+    deps: [build-heart]
     cmds:
-      - task build-heart
-      - ./bin/heart
+      - ./bin/heart --config {{.HEART_CONFIG}} --cert {{.CERT_PATH}} --key {{.KEY_PATH}}
+
   run-node:
+    desc: Run node service
+    deps: [build-node]
     cmds:
-      - task build-node
-      - ./bin/node
+      - ./bin/node --config {{.NODE_CONFIG}}
+
+  test:
+    desc: Run tests
+    cmds:
+      - go test -v ./...
+
+  test-coverage:
+    desc: Run tests with coverage
+    cmds:
+      - go test -v -coverprofile=coverage.out ./...
+      - go tool cover -html=coverage.out -o coverage.html
+
+  lint:
+    desc: Run golangci-lint
+    cmds:
+      - golangci-lint run
+
+  fmt:
+    desc: Format code
+    cmds:
+      - go fmt ./...
+
+  vet:
+    desc: Run go vet
+    cmds:
+      - go vet ./...
+
   proto:
+    desc: Generate protobuf code
     cmds:
-      - protoc --go_out=. --go-grpc_out=. proto/heart.proto 
+      - mkdir -p heartpb nodepb
+      - protoc --go_out=. --go-grpc_out=. proto/heart.proto
       - protoc --go_out=. --go-grpc_out=. proto/node.proto
+
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - rm -rf bin/
+      - rm -rf coverage.out coverage.html
+      - go clean
+
+  start-rabbitmq:
+    desc: Start RabbitMQ with Docker
+    cmds:
+      - docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management || echo "RabbitMQ may already be running"
+
+  stop-rabbitmq:
+    desc: Stop RabbitMQ
+    cmds:
+      - docker stop rabbitmq && docker rm rabbitmq || echo "RabbitMQ not running"
+
+  ci:
+    desc: Run CI pipeline
+    cmds:
+      - task: deps
+      - task: proto
+      - task: fmt
+      - task: vet
+      - task: lint
+      - task: test
+      - task: build
