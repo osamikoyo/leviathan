@@ -36,7 +36,7 @@ func InitMetrics() {
 		RequestCount = prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: "leviathan_requests_total",
 			Help: "Total number of requests processed by heart service",
-		}, []string{"type", "status"})
+		}, []string{"type"})
 
 		RequestDuration = prometheus.NewHistogramVec(prometheus.HistogramOpts{
 			Name:    "leviathan_request_duration_seconds",
