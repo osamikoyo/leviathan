@@ -29,5 +29,7 @@ func (r *ReaderClient) Read(sql string, args ...any) (Result, error) {
 
 	result := <-resp
 
+	close(resp)
+
 	return result.Values, result.Error
 }
