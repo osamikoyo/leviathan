@@ -32,13 +32,21 @@ func main() {
 
 	metrics.InitMetrics()
 
+	cert := ""
+	key := ""
+
 	path := "heart_config.yaml"
 
 	// Better argument parsing
 	for i, arg := range os.Args {
-		if arg == "--config" && i+1 < len(os.Args) {
+		if arg == "--config" {
 			path = os.Args[i+1]
-			break
+		}
+		if arg == "--cert" {
+			cert = os.Args[i+1]
+		}
+		if arg == "--key" {
+			key = os.Args[i+1]
 		}
 	}
 
@@ -55,7 +63,7 @@ func main() {
 		zap.String("rabbitmq_url", cfg.RabbitmqUrl),
 		zap.Int("nodes_count", len(cfg.Nodes)))
 
-	heart, err := heart.ConnectHeart(cfg, logger)
+	heart, err := heart.ConnectHeart(cfg, logger, cert, key)
 	if err != nil {
 		logger.Fatal("failed to connect heart",
 			zap.Error(err))
