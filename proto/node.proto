@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package node;
+
 option go_package = "./nodepb";
 
 import "google/protobuf/timestamp.proto";
