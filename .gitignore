@@ -24,7 +24,7 @@ profile.cov
 go.work
 go.work.sum
 
-
+secret
 # env file
 .env
 
